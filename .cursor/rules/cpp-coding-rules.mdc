@@ -1,0 +1,160 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# C++编码规范指南
+
+## 命名规范
+
+### 类命名
+- 使用大驼峰命名法（PascalCase）
+- 类名应该是名词或名词短语
+- 示例：`HttpDownloader`, `FileManager`
+
+### 变量命名
+- 成员变量使用小驼峰命名法（camelCase）
+- 私有成员变量可以以下划线结尾
+- 示例：`fileName_`, `downloadSpeed`
+
+### 函数命名
+- 使用小驼峰命名法（camelCase）
+- 函数名应该是动词或动词短语
+- 示例：`downloadFile()`, `validateUrl()`
+
+### 常量命名
+- 使用全大写，单词间用下划线分隔
+- 示例：`MAX_THREAD_COUNT`, `DEFAULT_TIMEOUT`
+
+## 代码格式
+
+### 缩进和空格
+- 使用4个空格进行缩进
+- 运算符前后要有空格
+- 逗号后要有空格
+- 示例：
+```cpp
+if (condition) {
+    doSomething();
+}
+```
+
+### 大括号
+- 左大括号不换行
+- 右大括号独占一行
+- 示例：
+```cpp
+class MyClass {
+public:
+    void method() {
+        // 代码
+    }
+};
+```
+
+### 行长度
+- 每行代码不超过100个字符
+- 过长的行应该适当换行
+
+## 注释规范
+
+### 文件头注释
+```cpp
+/**
+ * @file filename.cpp
+ * @brief 文件功能描述
+ * @author 作者名
+ * @date 创建日期
+ */
+```
+
+### 函数注释
+```cpp
+/**
+ * @brief 函数功能描述
+ * @param param1 参数1的说明
+ * @param param2 参数2的说明
+ * @return 返回值说明
+ * @throws 可能抛出的异常说明
+ */
+```
+
+### 类注释
+```cpp
+/**
+ * @class ClassName
+ * @brief 类的功能描述
+ */
+```
+
+## 错误处理
+
+### 异常处理
+- 使用异常处理机制而不是错误码
+- 自定义异常类应该继承自`std::exception`
+- 示例：
+```cpp
+class DownloadException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "Download failed";
+    }
+};
+```
+
+### 资源管理
+- 使用RAII原则管理资源
+- 优先使用智能指针而不是原始指针
+- 示例：
+```cpp
+std::unique_ptr<CURL, decltype(&curl_easy_cleanup)> curl(curl_easy_init(), curl_easy_cleanup);
+```
+
+## 性能优化
+
+### 内存管理
+- 避免不必要的内存分配
+- 使用移动语义而不是复制
+- 使用引用避免不必要的拷贝
+
+### 多线程
+- 使用`std::mutex`保护共享资源
+- 使用`std::atomic`进行原子操作
+- 避免死锁和竞态条件
+
+## 安全性
+
+### 输入验证
+- 验证所有外部输入
+- 检查缓冲区边界
+- 使用安全的字符串处理函数
+
+### 错误检查
+- 检查所有系统调用的返回值
+- 验证指针的有效性
+- 处理所有可能的错误情况
+
+## 测试规范
+
+### 单元测试
+- 为每个类编写单元测试
+- 使用测试框架（如Google Test）
+- 测试边界条件和异常情况
+
+### 代码覆盖率
+- 保持较高的代码覆盖率
+- 测试所有关键路径
+- 包含正面和负面测试用例
+
+## 版本控制
+
+### 提交信息
+- 使用清晰的提交信息
+- 说明修改的目的和影响
+- 关联相关的issue或bug
+
+### 分支管理
+- 使用特性分支进行开发
+- 保持主分支的稳定性
+- 及时合并和解决冲突
+
